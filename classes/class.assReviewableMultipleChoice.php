@@ -36,8 +36,17 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		$this->knowledge_dimension = $knowledge_dimension;
 	}
 	
+	function getAdditionalReviewDataTable() {
+		return "qpl_qst_rev_mc";
+	}
+	
+	function saveAdditionalReviewDataToDb($original_id = "") {
+		// ...
+	}
+	
 	function saveToDb($original_id = "") {
-		parent::_saveToDb($original_id);
+		parent::saveToDb($original_id);
+		$this->saveAdditionalReviewDataToDb($original_id);
 	}
 	
 	function loadFromDb($question_id) {
