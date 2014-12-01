@@ -44,7 +44,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		parent::_loadFromDb($question_id);
 	}
 	
-	function duplicate ($for_test=true, $title="", $author="", $owner="", $testObjId=null) {
+	public function duplicate ($for_test=true, $title="", $author="", $owner="", $testObjId=null) {
 		parent::_duplicate($for_test, $title, $author, $owner, $testObjId);
 	}
 	
