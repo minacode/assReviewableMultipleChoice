@@ -10,7 +10,7 @@ include_once "./Modules/TestQuestionPool/classes/class.ilQuestionsPlugin.php";
 * @version $Id$
 * 
 */
-class ilassExampleQuestionPlugin extends ilQuestionsPlugin
+class ilassReviewableMultipleChoicePlugin extends ilQuestionsPlugin
 {
 		final function getPluginName()
 		{

@@ -14,6 +14,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @ilctrl_iscalledby assReviewableMultipleChoiceGUI: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
  */
 
+  require_once('./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php';);
+ 
 class assReviewableMultipleChoiceGUI extends assQuestionGUI{
 
 
