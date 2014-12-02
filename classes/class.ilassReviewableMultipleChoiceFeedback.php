@@ -11,7 +11,7 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultipleChoic
  *
  */
 
-class ilAssReviewableMultipleChoiceFeedback extends ilAssMultipleChoiceFeedbackFeedback{
+class ilAssReviewableMultipleChoiceFeedback extends ilAssMultipleChoiceFeedback{
     
 }
 ?>
