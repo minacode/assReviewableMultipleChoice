@@ -36,33 +36,73 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		$this->knowledge_dimension = $knowledge_dimension;
 	}
 	
-	function getAdditionalReviewDataTable() {
+	public function getQuestionType() {
+		return "assReviewableMultipleChoice";
+	}
+	
+	public function getTaxonomy() {
+		return $this->taxonomy;
+	}
+	
+	public function setTaxonomy($a_taxonomy) {
+		$this->taxonomy = $a_taxonomy;
+	}
+	
+	public function getKnowledgeDimension() {
+		return $this->knowledge_dimension;
+	}
+	
+	public function setKnowledgeDimension($a_knowledge_dimension) {
+		$this->knowledge_dimension = $a_knowledge_dimension;
+	}
+	
+	function getReviewDataTable() {
 		return "qpl_qst_rev_mc";
 	}
 	
-	function saveAdditionalReviewDataToDb($original_id = "") {
-		// ...
+	private function saveReviewDataToDb($original_id = "") {
+		global $ilDB;
+		
+		if ($this->getId() == -1) {
+			// create new
+		} else {
+			$affectedRows = $ilDB->update(
+				"qpl__reviewable_questions", 
+				array(
+					"taxonomy"            => array( "text" , $this->getTaxonomy() ),
+					"knowledge_dimension" => array( "text" , $this->getKnowlegdeDimension() )
+				),
+				array(
+					"question_id" => array("integer", $this->getId() )
+				)
+			);
+		}
 	}
 	
-	function saveToDb($original_id = "") {
+	public function saveToDb($original_id = "") {
 		parent::saveToDb($original_id);
 		$this->saveAdditionalReviewDataToDb($original_id);
 	}
 	
-	function loadFromDb($question_id) {
+	private function loadReviewDataFromDb($question_id = "") {
+		global $ilDB;
+		
+		$result = $ilDB->queryF(
+			"SELECT taxonomy, knowledge_dimension FROM qpl_rev_questions WHERE question_id = %s",
+			array("integer"),
+			array($question_id)
+		);
+		
+		if($result->numRows() == 1) {
+			$data = $ilDB->fetchAssoc($result);
+			$this->setTaxonomy( $data['taxonomy'] );
+			$this->setKnowledgeDimension( $data['knowledge_dimension'] );
+		}
+	}
+	
+	public function loadFromDb($question_id) {
 		parent::_loadFromDb($question_id);
-	}
-	
-	public function duplicate ($for_test=true, $title="", $author="", $owner="", $testObjId=null) {
-		parent::_duplicate($for_test, $title, $author, $owner, $testObjId);
-	}
-	
-	function copyObject ($target_questionpool_id, $title="") {
-		parent::copyObject($target_questionpool_id, $title);
-	}
-	
-	function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle="") {
-		//...
+		$this->loadAdditionalReviewDataFromDb($original_id);
 	}
 	
 	function toJSON() {
