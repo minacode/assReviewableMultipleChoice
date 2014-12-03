@@ -65,7 +65,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		
 		$result = $ilDB->queryF(
 			"SELECT * 
-			FROM qpl_reviewable_questions 
+			FROM qpl_rev_qst 
 			WHERE question_id = %s",
 			array("integer"),
 			array( $this->getId() ) 
@@ -73,7 +73,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		
 		if ($result->numRows() <= 0) {
 			$affectedRows = $ilDB->insert(
-				"qpl_reviewable_questions",
+				"qpl_rev_qst",
 				array(
 					"question_id"         => array( "text"    , $this->getId()                 ),
 					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
@@ -82,7 +82,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 			);
 		} else {
 			$affectedRows = $ilDB->update(
-				"qpl_reviewable_questions", 
+				"qpl_rev_qst", 
 				array(
 					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
 					"knowledge_dimension" => array( "text"    , $this->getKnowlegdeDimension() )
@@ -103,7 +103,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		global $ilDB;
 		
 		$result = $ilDB->queryF(
-			"SELECT taxonomy, knowledge_dimension FROM qpl_reviewable_questions WHERE question_id = %s",
+			"SELECT taxonomy, knowledge_dimension FROM qpl_rev_qst WHERE question_id = %s",
 			array("integer"),
 			array($question_id)
 		);
