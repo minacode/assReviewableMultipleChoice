@@ -75,21 +75,20 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 			$affectedRows = $ilDB->insert(
 				"qpl_reviewable_questions",
 				array(
-				
-				),
-				array(
-				
+					"question_id"         => array( "text"    , $this->getId()                 ),
+					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
+					"knowledge_dimension" => array( "text"    , $this->getKnowledgeDimension() )
 				)
 			);
 		} else {
 			$affectedRows = $ilDB->update(
 				"qpl_reviewable_questions", 
 				array(
-					"taxonomy"            => array( "text" , $this->getTaxonomy() ),
-					"knowledge_dimension" => array( "text" , $this->getKnowlegdeDimension() )
+					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
+					"knowledge_dimension" => array( "text"    , $this->getKnowlegdeDimension() )
 				),
 				array(
-					"question_id" => array("integer", $this->getId() )
+					"question_id"         => array( "integer" , $this->getId()                 )
 				)
 			);
 		}
