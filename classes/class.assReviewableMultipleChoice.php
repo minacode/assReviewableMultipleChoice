@@ -63,11 +63,27 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	private function saveReviewDataToDb($original_id = "") {
 		global $ilDB;
 		
-		if ($this->getId() == -1) {
-			// create new
+		$result = $ilDB->queryF(
+			"SELECT * 
+			FROM qpl_reviewable_questions 
+			WHERE question_id = %s",
+			array("integer"),
+			array( $this->getId() ) 
+		);
+		
+		if ($result->numRows() <= 0) {
+			$affectedRows = $ilDB->insert(
+				"qpl_reviewable_questions",
+				array(
+				
+				),
+				array(
+				
+				)
+			);
 		} else {
 			$affectedRows = $ilDB->update(
-				"qpl__reviewable_questions", 
+				"qpl_reviewable_questions", 
 				array(
 					"taxonomy"            => array( "text" , $this->getTaxonomy() ),
 					"knowledge_dimension" => array( "text" , $this->getKnowlegdeDimension() )
@@ -88,7 +104,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		global $ilDB;
 		
 		$result = $ilDB->queryF(
-			"SELECT taxonomy, knowledge_dimension FROM qpl_rev_questions WHERE question_id = %s",
+			"SELECT taxonomy, knowledge_dimension FROM qpl_reviewable_questions WHERE question_id = %s",
 			array("integer"),
 			array($question_id)
 		);
