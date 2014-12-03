@@ -36,8 +36,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	* @access public
 	*/
 
-	public function __construct($id = -1)
-	{
+	public function __construct($id = -1) {
 		parent::__construct();
 		include_once "./Services/Component/classes/class.ilPlugin.php";
 		$this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", "assReviewableMultipleChoice");
@@ -56,15 +55,12 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	 *
 	 * @return integer A positive value, if one of the required fields wasn't set, else 0
 	 */
-	public function writePostData($always = false)
-	{
+	public function writePostData($always = false) {
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
-			$this->saveTaxonomyAssignments();
+			parent::writePostData($always);
+			//? $this->writeReviewData();
 			return 0;
 		}
 		return 1;
@@ -77,8 +73,8 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	 *
 	 * @return bool
 	 */
-	public function editQuestion($checkonly = FALSE)
-	{
+	public function editQuestion($checkonly = FALSE) {
+		// copy from assMultipleChoice
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
@@ -103,8 +99,12 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		$this->addBasicQuestionFormProperties( $form );
 		$this->populateQuestionSpecificFormPart( $form );
 		$this->populateAnswerSpecificFormPart( $form );
-		$this->populateTaxonomyFormSection($form);
-		$this->addQuestionFormCommandButtons($form);
+		$this->populateTaxonomyFormSection( $form );
+		$this->addQuestionFormCommandButtons( $form );
+
+		// begin reviewable part
+		//? $this->populateReviewSpecificFormPart( $form );
+		// end reviewable part
 
 		$errors = false;
 
