@@ -93,7 +93,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 			$form->setMultipart(FALSE);
 		}
 		$form->setTableWidth("100%");
-		$form->setId("assmultiplechoice");
+		$form->setId("revmc");
 
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties( $form );
@@ -103,7 +103,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		$this->addQuestionFormCommandButtons( $form );
 
 		// begin reviewable part
-		//? $this->populateReviewSpecificFormPart( $form );
+		$this->populateTaxonomyFormPart( $form );
 		// end reviewable part
 
 		$errors = false;
@@ -773,146 +773,47 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
-
-	public function writeQuestionSpecificPostData($always = false)
-	{
-		$this->object->setShuffle( $_POST["shuffle"] );
-
-		$this->object->setSpecificFeedbackSetting( $_POST['feedback_setting'] );
-
-		$this->object->setMultilineAnswerSetting( $_POST["types"] );
-		if (is_array( $_POST['choice']['imagename'] ) && $_POST["types"] == 1)
-		{
-			$this->object->isSingleline = true;
-			ilUtil::sendInfo( $this->lng->txt( 'info_answer_type_change' ), true );
-		}
-		else
-		{
-			$this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
-		}
-		$this->object->setThumbSize( (strlen( $_POST["thumb_size"] )) ? $_POST["thumb_size"] : "" );
+	
+	private function populateTaxonomyFormPart() {
+		
+		$head_t = new ilFormSectionHeaderGUI();
+		$head_t->setTitle('Taxonomie');
+		$this->addItem($head_t);
+		
+		$head = new ilAspectHeadGUI(array('Taxonomie', 'Wissensdimension'));
+		$this->addItem($head);
+		
+		$taxo = new ilAspectSelectInputGUI('Eingabe',
+													  array("cog_r" => array("options" => $this->cognitiveProcess(),
+																					 "selected" => 0),
+															  "kno_r" => array("options" => $this->knowledge(),
+																					 "selected" => 0)),
+													  false);
+		$this->addItem($taxo);
+		
 	}
 
-	public function writeAnswerSpecificPostData($always = false)
-	{
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flushAnswers();
-		if ($this->object->isSingleline)
-		{
-			foreach ($_POST['choice']['answer'] as $index => $answertext)
-			{
-				$picturefile    = $_POST['choice']['imagename'][$index];
-				$file_org_name  = $_FILES['choice']['name']['image'][$index];
-				$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
-
-				if (strlen( $file_temp_name ))
-				{
-					// check suffix						
-					$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
-					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
-					{
-						// upload image
-						$filename = $this->object->createNewImageFileName( $file_org_name );
-						if ($this->object->setImageFile( $filename, $file_temp_name ) == 0)
-						{
-							$picturefile = $filename;
-						}
-					}
-				}
-				$this->object->addAnswer( $answertext,
-										  $_POST['choice']['points'][$index],
-										  $_POST['choice']['points_unchecked'][$index],
-										  $index,
-										  $picturefile
-				);
-			}
-		}
-		else
-		{
-			foreach ($_POST['choice']['answer'] as $index => $answer)
-			{
-				$answertext = $answer;
-				$this->object->addAnswer( $answertext,
-										  $_POST['choice']['points'][$index],
-										  $_POST['choice']['points_unchecked'][$index],
-										  $index
-				);
-			}
-		}
+	private function cognitiveProcess() {
+		return array(0 => "",
+						 1 => "Remember",
+						 2 => "Understand",
+						 3 => "Apply",
+						 4 => "Analyze",
+						 5 => "Evaluate",
+						 6 => "Create",
+						);
 	}
-
-	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
-	{
-		// shuffle
-		$shuffle = new ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle");
-		$shuffle->setValue( 1 );
-		$shuffle->setChecked( $this->object->getShuffle() );
-		$shuffle->setRequired( FALSE );
-		$form->addItem( $shuffle );
-
-		if ($this->object->getId())
-		{
-			$hidden = new ilHiddenInputGUI("", "ID");
-			$hidden->setValue( $this->object->getId() );
-			$form->addItem( $hidden );
-		}
-
-		if (!$this->object->getSelfAssessmentEditingMode())
-		{
-			$isSingleline = ($this->object->lastChange == 0 && !array_key_exists( 'types',
-																				  $_POST
-				)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
-			// Answer types
-			$types = new ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
-			$types->setRequired( false );
-			$types->setValue( ($isSingleline) ? 0 : 1 );
-			$types->setOptions( array(
-									0 => $this->lng->txt( 'answers_singleline' ),
-									1 => $this->lng->txt( 'answers_multiline' ),
-								)
-			);
-			$form->addItem( $types );
-		}
-
-		if ($isSingleline)
-		{
-			// thumb size
-			$thumb_size = new ilNumberInputGUI($this->lng->txt( "thumb_size" ), "thumb_size");
-			$thumb_size->setMinValue( 20 );
-			$thumb_size->setDecimals( 0 );
-			$thumb_size->setSize( 6 );
-			$thumb_size->setInfo( $this->lng->txt( 'thumb_size_info' ) );
-			$thumb_size->setValue( $this->object->getThumbSize() );
-			$thumb_size->setRequired( false );
-			$form->addItem( $thumb_size );
-			return $isSingleline;
-		}
-		return $isSingleline;
+	
+	private function knowledge() {
+		return array(0 => "",
+						 1 => "Conceptual",
+						 2 => "Factual",
+						 3 => "Procedural",
+						 4 => "Metacognitive",
+						);
 	}
-
-	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
-	{
-		// Choices
-		include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
-		$choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
-		$choices->setRequired( true );
-		$choices->setQuestionObject( $this->object );
-		$isSingleline = ($this->object->lastChange == 0 && !array_key_exists( 'types',
-																			  $_POST
-			)) ? (($this->object->getMultilineAnswerSetting()) ? false : true) : $this->object->isSingleline;
-		$choices->setSingleline( $isSingleline );
-		$choices->setAllowMove( false );
-		if ($this->object->getSelfAssessmentEditingMode())
-		{
-			$choices->setSize( 40 );
-			$choices->setMaxLength( 800 );
-		}
-		if ($this->object->getAnswerCount() == 0)
-			$this->object->addAnswer( "", 0, 0, 0 );
-		$choices->setValues( $this->object->getAnswers() );
-		$form->addItem( $choices );
-	}
-
+	
+	
 	/**
 	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
 	 * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
