@@ -775,7 +775,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	}
 	
 	private function populateTaxonomyFormPart() {
-		/*
+		
 		$head_t = new ilFormSectionHeaderGUI();
 		$head_t->setTitle('Taxonomie');
 		$this->addItem($head_t);
@@ -790,7 +790,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 																					 "selected" => 0)),
 													  false);
 		$this->addItem($taxo);
-		*/
+		
 	}
 
 	private function cognitiveProcess() {

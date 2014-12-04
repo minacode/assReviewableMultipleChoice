@@ -117,7 +117,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	
 	public function loadFromDb($question_id) {
 		parent::loadFromDb($question_id);
-		$this->loadReviewDataFromDb($original_id);
+		$this->loadAdditionalReviewDataFromDb($original_id);
 	}
 	
 	function toJSON() {
