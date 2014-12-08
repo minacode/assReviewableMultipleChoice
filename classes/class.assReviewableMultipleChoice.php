@@ -14,7 +14,7 @@
  * @ingroup		ModulesTestQuestionPool
  */
  
- require_once('./Modules/TestQuestionPool/classes/class.assMultipleChoice.php');
+require_once('./Modules/TestQuestionPool/classes/class.assMultipleChoice.php');
 
 class assReviewableMultipleChoice extends assMultipleChoice {
 
@@ -75,7 +75,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 			$affectedRows = $ilDB->insert(
 				"qpl_rev_qst",
 				array(
-					"question_id"         => array( "text"    , $this->getId()                 ),
+					"question_id"         => array( "integer"    , $this->getId()                 ),
 					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
 					"knowledge_dimension" => array( "text"    , $this->getKnowledgeDimension() )
 				)
@@ -96,7 +96,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	
 	public function saveToDb($original_id = "") {
 		parent::saveToDb($original_id);
-		$this->saveAdditionalReviewDataToDb($original_id);
+		$this->saveReviewDataToDb($original_id);
 	}
 	
 	private function loadReviewDataFromDb($question_id = "") {
@@ -118,6 +118,14 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	public function loadFromDb($question_id) {
 		parent::loadFromDb($question_id);
 		$this->loadReviewDataFromDb($original_id);
+	}
+	
+	public function delete() {
+		global $ilDB;
+		
+		$ilDB->manipulate( "DELETE FROM qpl_rev_qst WHERE id = " .  $ilDB->quote($this->getId(), "integer") );
+		
+		parent::delete( $this->getId() );
 	}
 	
 	function toJSON() {
