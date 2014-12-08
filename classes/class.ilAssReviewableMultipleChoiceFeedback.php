@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultipleChoiceFeedback.php';
+require_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssMultipleChoiceFeedback.php");
 
 /**
  * ReviewableMultipleChoice object

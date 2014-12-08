@@ -1,6 +1,6 @@
 <?php
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assMultipleChoiceExport.php";
+require_once("./Modules/TestQuestionPool/classes/export/qti12/class.assMultipleChoiceExport.php");
 
 /**
 * ReviewableMultipleChoice Export
