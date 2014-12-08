@@ -1,7 +1,7 @@
 <?php
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
  * Example GUI class for question type plugins
@@ -121,20 +121,13 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	}
 
 	
-
-	
-	
-	
-
-	
-	private function populateTaxonomyFormPart() {
-		/*
+	private function populateTaxonomyFormPart($form) {
 		$head_t = new ilFormSectionHeaderGUI();
 		$head_t->setTitle('Taxonomie');
-		$this->addItem($head_t);
+		$form->addItem($head_t);
 		
 		$head = new ilAspectHeadGUI(array('Taxonomie', 'Wissensdimension'));
-		$this->addItem($head);
+		$form->addItem($head);
 		
 		$taxo = new ilAspectSelectInputGUI('Eingabe',
 													  array("cog_r" => array("options" => $this->cognitiveProcess(),
@@ -142,8 +135,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 															  "kno_r" => array("options" => $this->knowledge(),
 																					 "selected" => 0)),
 													  false);
-		$this->addItem($taxo);
-		*/
+		$form->addItem($taxo);
 	}
 
 	private function cognitiveProcess() {
