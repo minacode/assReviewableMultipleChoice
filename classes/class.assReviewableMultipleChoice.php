@@ -96,7 +96,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	
 	public function saveToDb($original_id = "") {
 		parent::saveToDb($original_id);
-		$this->saveAdditionalReviewDataToDb($original_id);
+		$this->saveReviewDataToDb($original_id);
 	}
 	
 	private function loadReviewDataFromDb($question_id = "") {
