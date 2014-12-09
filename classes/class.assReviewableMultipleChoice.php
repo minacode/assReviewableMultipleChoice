@@ -85,7 +85,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 				"qpl_rev_qst", 
 				array(
 					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
-					"knowledge_dimension" => array( "text"    , $this->getKnowlegdeDimension() )
+					"knowledge_dimension" => array( "text"    , $this->getKnowledgeDimension() )
 				),
 				array(
 					"question_id"         => array( "integer" , $this->getId()                 )
