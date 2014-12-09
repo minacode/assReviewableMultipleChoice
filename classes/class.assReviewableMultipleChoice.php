@@ -123,9 +123,9 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	function delete($question_id) {
 		global $ilDB;
 		
-		$ilDB->manipulate( "DELETE FROM qpl_rev_qst WHERE question_id = " . $this->getId() );
+		$affectedRows = $ilDB->manipulate( "DELETE FROM qpl_rev_qst WHERE question_id = " . $question_id );
 		
-		parent::delete( $this->getId() );
+		parent::delete( $question_id );
 	}
 	
 	function toJSON() {
