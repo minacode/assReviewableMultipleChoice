@@ -15,6 +15,8 @@
  */
  
 require_once('./Modules/TestQuestionPool/classes/class.assMultipleChoice.php');
+require_once('export/qti12/class.assReviewableMultipleChoiceExport.php');
+require_once('import/qti12/class.assReviewableMultipleChoiceImport.php');
 
 class assReviewableMultipleChoice extends assMultipleChoice {
 
