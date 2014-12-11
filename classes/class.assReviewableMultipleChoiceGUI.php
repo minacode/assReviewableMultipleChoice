@@ -1,8 +1,12 @@
 <?php
-
+require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-
+require_once "./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php";
+include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
+				 "/classes/GUI/class.ilAspectSelectInputGUI.php";
+include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
+				 "/classes/GUI/class.ilAspectHeadGUI.php";
 /**
  * Example GUI class for question type plugins
  *
@@ -14,7 +18,7 @@ require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @ilctrl_iscalledby assReviewableMultipleChoiceGUI: ilObjQuestionPoolGUI, ilObjTestGUI, ilQuestionEditGUI, ilTestExpressPageObjectGUI
  */
 
-  require_once('./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php');
+  
  
 class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 
@@ -120,23 +124,39 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		return $errors;
 	}
 
-	
 	private function populateTaxonomyFormPart($form) {
-		/*$head_t = new ilFormSectionHeaderGUI();
+		global $lng;
+		$head_t = new ilFormSectionHeaderGUI();
+		$head_t->setTitle($lng->txt("rep_robj_xrev_tax_and_know_dim"));
+		$form->addItem($head_t);
+		
+		$head = new ilAspectHeadGUI(array($lng->txt("rep_robj_xrev_taxonomy"), $lng->txt("rep_robj_xrev_knowledge_dim")));
+		$form->addItem($head);
+		
+		$taxo = new ilAspectSelectInputGUI($lng->txt("taxonomy"),
+													  array("cog_r" => array("options" => $this->cognitiveProcess(),
+																					 "selected" => $this->review["taxonomy"]),
+															  "kno_r" => array("options" => $this->knowledge(),
+																					 "selected" => $this->review["knowledge_dimension"])),
+													  false);
+		$form->addItem($taxo);
+		
+		
+		
+	}
+	/*private function populateTaxonomyFormPart($form) {
+		$head_t = new ilSelectInputGUI();
 		$head_t->setTitle('Taxonomie');
 		$form->addItem($head_t);
 		
 		$head = new ilAspectHeadGUI(array('Taxonomie', 'Wissensdimension'));
 		$form->addItem($head);
 		
-		$taxo = new ilAspectSelectInputGUI('Eingabe',
+		$taxo = new ilSelectInputGUI('Taxonomie',
 													  array("cog_r" => array("options" => $this->cognitiveProcess(),
-																					 "selected" => 0),
-															  "kno_r" => array("options" => $this->knowledge(),
-																					 "selected" => 0)),
-													  false);
-		$form->addItem($taxo);*/
-	}
+																					 "selected" => 0));
+		$form->addItem($taxo);
+	}*/
 
 	private function cognitiveProcess() {
 		return array(0 => "",
