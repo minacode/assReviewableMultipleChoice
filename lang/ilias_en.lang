@@ -1,3 +1,4 @@
-// English Language File for assExampleQuestion Plugin
+// English Language File for assReviewableMultipleChoice Plugin
 <!-- language file start -->
-assReviewableMultipleChoiceQuestion#:#Reviewable Multiple Choice Question
+assReviewableMultipleChoice#:#Reviewable Multiple Choice Question
+cognitive_process#:#Cognitive Process

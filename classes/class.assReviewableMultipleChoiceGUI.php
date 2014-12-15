@@ -3,10 +3,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 require_once "./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php";
-include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
-				 "/classes/GUI/class.ilAspectSelectInputGUI.php";
-include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
-				 "/classes/GUI/class.ilAspectHeadGUI.php";
+
 /**
  * Example GUI class for question type plugins
  *
@@ -124,58 +121,38 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		return $errors;
 	}
 
-	private function populateTaxonomyFormPart($form) {
+	
+	private function populateTaxonomyFormPart($form){
 		global $lng;
-		$head_t = new ilFormSectionHeaderGUI();
-		$head_t->setTitle($lng->txt("rep_robj_xrev_tax_and_know_dim"));
-		$form->addItem($head_t);
-		
-		$head = new ilAspectHeadGUI(array($lng->txt("rep_robj_xrev_taxonomy"), $lng->txt("rep_robj_xrev_knowledge_dim")));
-		$form->addItem($head);
-		
-		$taxo = new ilAspectSelectInputGUI($lng->txt("taxonomy"),
-													  array("cog_r" => array("options" => $this->cognitiveProcess(),
-																					 "selected" => $this->review["taxonomy"]),
-															  "kno_r" => array("options" => $this->knowledge(),
-																					 "selected" => $this->review["knowledge_dimension"])),
-													  false);
-		$form->addItem($taxo);
-		
-		
-		
-	}
-	/*private function populateTaxonomyFormPart($form) {
-		$head_t = new ilSelectInputGUI();
-		$head_t->setTitle('Taxonomie');
-		$form->addItem($head_t);
-		
-		$head = new ilAspectHeadGUI(array('Taxonomie', 'Wissensdimension'));
-		$form->addItem($head);
-		
-		$taxo = new ilSelectInputGUI('Taxonomie',
-													  array("cog_r" => array("options" => $this->cognitiveProcess(),
-																					 "selected" => 0));
-		$form->addItem($taxo);
-	}*/
-
-	private function cognitiveProcess() {
-		return array(0 => "",
+		$head_cog = new ilSelectInputGUI();
+		$head_cog->setTitle($lng->txt("cognitive_process"));
+		$head_cog->setValue(0);
+		$head_cog->setOptions(array(0 => "",
 						 1 => "Remember",
 						 2 => "Understand",
 						 3 => "Apply",
 						 4 => "Analyze",
 						 5 => "Evaluate",
 						 6 => "Create",
-						);
-	}
-	
-	private function knowledge() {
-		return array(0 => "",
+						));
+		$form->addItem($head_cog);
+		
+		$head_kno = new ilSelectInputGUI();
+		$head_kno->setTitle('Wissensdimension');
+		$head_kno->setValue(0);
+		$head_kno->setOptions(array(0 => "",
 						 1 => "Conceptual",
 						 2 => "Factual",
 						 3 => "Procedural",
 						 4 => "Metacognitive",
-						);
+						));
+		$form->addItem($head_kno);
+	}
+	
+	function getPreview($show_question_only = FALSE)
+	{	
+		//Richard, ich hoffe, das ist die Funktion, die du brauchst
+		
 	}
 }
 
