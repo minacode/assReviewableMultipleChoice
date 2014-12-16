@@ -147,13 +147,6 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 						 4 => $lng->txt("qpl_qst_revmc_Metacognitive"),
 						));
 		$form->addItem($head_kno);
-		//$form->addItem(getPreview());
-	}
-	
-	public function getPreview($show_question_only = FALSE)
-	{	
-		parent::getPreview($show_question_only = FALSE);
-		
 	}
 }
 
