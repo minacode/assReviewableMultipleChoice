@@ -1,5 +1,5 @@
 <?php
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+require_once "./Services/Form/classes/class.ilPropertyFormGUI.php";
 require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 require_once "./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php";
@@ -125,33 +125,34 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	private function populateTaxonomyFormPart($form){
 		global $lng;
 		$head_cog = new ilSelectInputGUI();
-		$head_cog->setTitle($lng->txt("cognitive_process"));
+		$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
 		$head_cog->setValue(0);
 		$head_cog->setOptions(array(0 => "",
-						 1 => "Remember",
-						 2 => "Understand",
-						 3 => "Apply",
-						 4 => "Analyze",
-						 5 => "Evaluate",
-						 6 => "Create",
+						 1 => $lng->txt("qpl_qst_revmc_Remember"),
+						 2 => $lng->txt("qpl_qst_revmc_Understand"),
+						 3 => $lng->txt("qpl_qst_revmc_Apply"),
+						 4 => $lng->txt("qpl_qst_revmc_Analyze"),
+						 5 => $lng->txt("qpl_qst_revmc_Evaluate"),
+						 6 => $lng->txt("qpl_qst_revmc_Create"),
 						));
 		$form->addItem($head_cog);
 		
 		$head_kno = new ilSelectInputGUI();
-		$head_kno->setTitle('Wissensdimension');
+		$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
 		$head_kno->setValue(0);
 		$head_kno->setOptions(array(0 => "",
-						 1 => "Conceptual",
-						 2 => "Factual",
-						 3 => "Procedural",
-						 4 => "Metacognitive",
+						 1 => $lng->txt("qpl_qst_revmc_Conceptual"),
+						 2 => $lng->txt("qpl_qst_revmc_Factual"),
+						 3 => $lng->txt("qpl_qst_revmc_Procedural"),
+						 4 => $lng->txt("qpl_qst_revmc_Metacognitive"),
 						));
 		$form->addItem($head_kno);
+		//$form->addItem(getPreview());
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	public function getPreview($show_question_only = FALSE)
 	{	
-		//Richard, ich hoffe, das ist die Funktion, die du brauchst
+		parent::getPreview($show_question_only = FALSE);
 		
 	}
 }
