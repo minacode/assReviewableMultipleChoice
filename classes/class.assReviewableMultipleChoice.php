@@ -77,17 +77,17 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 			$affectedRows = $ilDB->insert(
 				"qpl_rev_qst",
 				array(
-					"question_id"         => array( "text"    , $this->getId()                 ),
-					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
-					"knowledge_dimension" => array( "text"    , $this->getKnowledgeDimension() )
+					"question_id"         => array( "integer"    , $this->getId()                 ),
+					"taxonomy"            => array( "integer"    , $this->getTaxonomy()           ),
+					"knowledge_dimension" => array( "integer"    , $this->getKnowledgeDimension() )
 				)
 			);
 		} else {
 			$affectedRows = $ilDB->update(
 				"qpl_rev_qst", 
 				array(
-					"taxonomy"            => array( "text"    , $this->getTaxonomy()           ),
-					"knowledge_dimension" => array( "text"    , $this->getKnowledgeDimension() )
+					"taxonomy"            => array( "integer"    , $this->getTaxonomy()           ),
+					"knowledge_dimension" => array( "integer"    , $this->getKnowledgeDimension() )
 				),
 				array(
 					"question_id"         => array( "integer" , $this->getId()                 )
