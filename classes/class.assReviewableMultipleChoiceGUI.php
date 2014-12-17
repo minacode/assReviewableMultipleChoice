@@ -61,12 +61,18 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		if (!$hasErrors)
 		{
 			parent::writePostData($always);
-			//? $this->writeReviewData();
+			$this->writeReviewData();
 			return 0;
 		}
 		return 1;
 	}
 
+	public function writeReviewData($always = false)
+	{
+		$this->object->setTaxonomy($_POST["taxonomy"]);
+		$this->object->setKnowledgeDimension($_POST["knowledge_dimension"]);
+	}
+	
 	/**
 	 * Creates an output of the edit form for the question
 	 *
@@ -124,51 +130,56 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	
 	private function populateTaxonomyFormPart($form){
 		global $lng;
-		/*$head_cog = new ilSelectInputGUI();
-		$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
-		$head_cog->setValue(0);
-		$head_cog->setOptions(array(0 => "",
-						 1 => $lng->txt("qpl_qst_revmc_Remember"),
-						 2 => $lng->txt("qpl_qst_revmc_Understand"),
-						 3 => $lng->txt("qpl_qst_revmc_Apply"),
-						 4 => $lng->txt("qpl_qst_revmc_Analyze"),
-						 5 => $lng->txt("qpl_qst_revmc_Evaluate"),
-						 6 => $lng->txt("qpl_qst_revmc_Create"),
-						));
-		$form->addItem($head_cog);
-		
-		$head_kno = new ilSelectInputGUI();
-		$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
-		$head_kno->setValue(0);
-		$head_kno->setOptions(array(0 => "",
-						 1 => $lng->txt("qpl_qst_revmc_Conceptual"),
-						 2 => $lng->txt("qpl_qst_revmc_Factual"),
-						 3 => $lng->txt("qpl_qst_revmc_Procedural"),
-						 4 => $lng->txt("qpl_qst_revmc_Metacognitive"),
-						));
-		$form->addItem($head_kno);
-		
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-		$preview = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-		
-		$form->addItem($preview);*/
-		
 		global $ilPluginAdmin;
 		if($ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", "Review")){
 			include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
 				 "/classes/class.ilObjReview.php";
 			$head_cog = new ilSelectInputGUI();
+			$head_cog->setPostVar("taxonomy");
 			$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
-			$head_cog->setValue(0);
+			$head_cog->setValue($this->getDefaultTaxonomy($this->object->getId()));
 			$head_cog->setOptions(ilObjReview::taxonomy());
 			$form->addItem($head_cog);
 			
 			$head_kno = new ilSelectInputGUI();
 			$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
-			$head_kno->setValue(0);
+			$head_kno->setValue($this->getDefaultKnowledgeDimension($this->object->getId()));
+			$head_kno->setPostVar("knowledge_dimension");
 			$head_kno->setOptions(ilObjReview::knowledgeDimension());
 			$form->addItem($head_kno);
 		}
+	}
+	private function getDefaultTaxonomy($question_id)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF(
+				"SELECT taxonomy FROM qpl_rev_qst WHERE question_id = %s", 
+				array("integer"),
+				array($question_id));
+		if($result->numRows() <= 0)
+		{
+			return 0;
+		}else 
+		{
+			$first_row = $ilDB->fetchAssoc($result);
+			return $first_row["taxonomy"];
+		}
+	}
+	private function getDefaultKnowledgeDimension($question_id)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF(
+				"SELECT knowledge_dimension FROM qpl_rev_qst WHERE question_id = %s", 
+				array("integer"),
+				array($question_id));
+		if($result->numRows() <= 0)
+		{
+			return 0;
+		}else 
+		{
+			$first_row = $ilDB->fetchAssoc($result);
+			return $first_row["knowledge_dimension"];
+		}	
 	}
 }
 
