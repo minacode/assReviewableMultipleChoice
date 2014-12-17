@@ -97,8 +97,8 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 	}
 	
 	public function saveToDb($original_id = "") {
-		parent::saveToDb($original_id);
 		$this->saveReviewDataToDb($original_id);
+		parent::saveToDb($original_id);
 	}
 	
 	private function loadReviewDataFromDb($question_id = "") {
@@ -107,7 +107,7 @@ class assReviewableMultipleChoice extends assMultipleChoice {
 		$result = $ilDB->queryF(
 			"SELECT taxonomy, knowledge_dimension FROM qpl_rev_qst WHERE question_id = %s",
 			array("integer"),
-			array($question_id)
+			array($this->getId())
 		);
 		
 		if($result->numRows() == 1) {

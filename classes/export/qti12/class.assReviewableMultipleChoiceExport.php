@@ -59,7 +59,7 @@ class assReviewableMultipleChoiceExport extends assMultipleChoiceExport {
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "QUESTIONTYPE");
-		$a_xml_writer->xmlElement("fieldentry", NULL, MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
+		$a_xml_writer->xmlElement("fieldentry", NULL, "REVIEWABLE_MULTIPLE_CHOICE");
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
