@@ -124,7 +124,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	
 	private function populateTaxonomyFormPart($form){
 		global $lng;
-		$head_cog = new ilSelectInputGUI();
+		/*$head_cog = new ilSelectInputGUI();
 		$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
 		$head_cog->setValue(0);
 		$head_cog->setOptions(array(0 => "",
@@ -147,6 +147,28 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 						 4 => $lng->txt("qpl_qst_revmc_Metacognitive"),
 						));
 		$form->addItem($head_kno);
+		
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+		$preview = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+		
+		$form->addItem($preview);*/
+		
+		global $ilPluginAdmin;
+		if($ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", "Review")){
+			include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
+				 "/classes/class.ilObjReview.php";
+			$head_cog = new ilSelectInputGUI();
+			$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
+			$head_cog->setValue(0);
+			$head_cog->setOptions(ilObjReview::taxonomy());
+			$form->addItem($head_cog);
+			
+			$head_kno = new ilSelectInputGUI();
+			$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
+			$head_kno->setValue(0);
+			$head_kno->setOptions(ilObjReview::knowledgeDimension());
+			$form->addItem($head_kno);
+		}
 	}
 }
 
