@@ -127,6 +127,13 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		return $errors;
 	}
 
+	/**
+	 * Creates the output of the taxonomy and knowledgeDimension for the question
+	 *
+	 * @param ilPropertyFormGUI $form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
 	
 	private function populateTaxonomyFormPart($form){
 		global $lng;
@@ -149,6 +156,13 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 			$form->addItem($head_kno);
 		}
 	}
+	/**
+	 * Returns the input for the ilSelectInputGUI (taxonomy)
+	 *
+	 * @param int $question_id
+	 *
+	 * @return int[]
+	 */
 	private function getDefaultTaxonomy($question_id)
 	{
 		global $ilDB;
@@ -165,6 +179,13 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 			return $first_row["taxonomy"];
 		}
 	}
+	/**
+	 * Returns the input for the ilSelectInputGUI (knowledgeDimension)
+	 *
+	 * @param int $question_id
+	 *
+	 * @return int[]
+	 */
 	private function getDefaultKnowledgeDimension($question_id)
 	{
 		global $ilDB;
