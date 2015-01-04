@@ -11,6 +11,11 @@ require_once("./Modules/TestQuestionPool/classes/export/qti12/class.assMultipleC
 */
 class assReviewableMultipleChoiceExport extends assMultipleChoiceExport {
 
+	/**
+	 * Adds the taxonomy and knowledge dimension to the QTI xml representation
+	 * 
+	 * @param mixed $a_xml_writer	A xml writer
+	 */
 	function addReviewMetadata($a_xml_writer) {
 		
 		// write taxonomy metadata
@@ -26,6 +31,15 @@ class assReviewableMultipleChoiceExport extends assMultipleChoiceExport {
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 	}
 
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
 	function toXML() {
 		global $ilias;
 		
