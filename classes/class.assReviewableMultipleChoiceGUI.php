@@ -8,6 +8,7 @@ require_once "./Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php"
  * Example GUI class for question type plugins
  *
  * @author	Julius Felchow <julius.felchow@mailbox.tu-dresden.de>
+ * @author  Max Friedrich <max.friedrich@mailbox.tu-dresden.de>
  * @version	$Id$
  *
  * @ingroup ModulesTestQuestionPool
@@ -130,9 +131,9 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	/**
 	 * Creates the output of the taxonomy and knowledgeDimension for the question
 	 *
-	 * @param ilPropertyFormGUI $form
+	 * @param object $form (ilPropertyFormGUI())
 	 *
-	 * @return ilPropertyFormGUI
+	 * @return object (ilPropertyFormGUI())
 	 */
 	
 	private function populateTaxonomyFormPart($form){
@@ -161,7 +162,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	 *
 	 * @param int $question_id
 	 *
-	 * @return int[]
+	 * @return int array
 	 */
 	private function getDefaultTaxonomy($question_id)
 	{
@@ -184,7 +185,7 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 	 *
 	 * @param int $question_id
 	 *
-	 * @return int[]
+	 * @return int array
 	 */
 	private function getDefaultKnowledgeDimension($question_id)
 	{
