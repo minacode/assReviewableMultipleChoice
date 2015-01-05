@@ -119,7 +119,8 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		if ($save)
 		{
 			$form->setValuesByPost();
-			$errors = !$form->checkInput();
+			$errors = !$form->checkInput() || !$this->checkAddInput();
+			
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
 			if ($errors) $checkonly = false;
 		}
@@ -142,17 +143,17 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 		if($ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", "Review")){
 			include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
 				 "/classes/class.ilObjReview.php";
-			$head_cog = new ilSelectInputGUI();
-			$head_cog->setPostVar("taxonomy");
+			$head_cog = new ilSelectInputGUI("", "taxonomy");
+			// $head_cog->setPostVar("taxonomy");
 			$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
 			$head_cog->setValue($this->getDefaultTaxonomy($this->object->getId()));
 			$head_cog->setOptions(ilObjReview::taxonomy());
 			$form->addItem($head_cog);
-			
-			$head_kno = new ilSelectInputGUI();
+
+			$head_kno = new ilSelectInputGUI("", "knowledge_dimension");
 			$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
 			$head_kno->setValue($this->getDefaultKnowledgeDimension($this->object->getId()));
-			$head_kno->setPostVar("knowledge_dimension");
+			// $head_kno->setPostVar("knowledge_dimension");
 			$head_kno->setOptions(ilObjReview::knowledgeDimension());
 			$form->addItem($head_kno);
 		}
@@ -202,6 +203,22 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 			$first_row = $ilDB->fetchAssoc($result);
 			return $first_row["knowledge_dimension"];
 		}	
+	}
+	
+	/**
+	 * Returns the input for the ilSelectInputGUI (knowledgeDimension)
+	 *
+	 * @return bool
+	 */
+	public function checkAddInput(){
+		global $lng;
+		$valid = true;
+		if ($_POST["taxonomy"]==0 || $_POST["knowledge_dimension"]==0)
+			$valid = false;
+		if (!$valid)
+			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+		return $valid;	
+		
 	}
 }
 
