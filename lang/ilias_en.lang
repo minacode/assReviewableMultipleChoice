@@ -1,15 +1,5 @@
 // English Language File for assReviewableMultipleChoice Plugin
 <!-- language file start -->
-assReviewableMultipleChoice#:#Reviewable Multiple Choice Question
+assReviewableMultipleChoice#:#Multiple Choice (Reviewable)
 cognitive_process#:#Cognitive Process
-Remember#:#Remember
-Understand#:#Understand
-Apply#:#Apply
-Analyze#:#Analyze
-Evaluate#:#Evaluate
-Create#:#Create
 knowledge_dimension#:#Knowledgedimension
-Conceptual#:#Conceptual
-Factual#:#Factual
-Procedural#:#Procedural
-Metacognitive#:#Metacognitive
