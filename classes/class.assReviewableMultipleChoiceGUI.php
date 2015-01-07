@@ -144,17 +144,17 @@ class assReviewableMultipleChoiceGUI extends assMultipleChoiceGUI{
 			include_once ilPlugin::getPluginObject(IL_COMP_SERVICE, 'Repository', 'robj', 'Review')->getDirectory() .
 				 "/classes/class.ilObjReview.php";
 			$head_cog = new ilSelectInputGUI("", "taxonomy");
-			// $head_cog->setPostVar("taxonomy");
 			$head_cog->setTitle($lng->txt("qpl_qst_revmc_cognitive_process"));
 			$head_cog->setValue($this->getDefaultTaxonomy($this->object->getId()));
 			$head_cog->setOptions(ilObjReview::taxonomy());
+			$head_cog->setRequired(true);
 			$form->addItem($head_cog);
 
 			$head_kno = new ilSelectInputGUI("", "knowledge_dimension");
 			$head_kno->setTitle($lng->txt("qpl_qst_revmc_knowledge_dimension"));
 			$head_kno->setValue($this->getDefaultKnowledgeDimension($this->object->getId()));
-			// $head_kno->setPostVar("knowledge_dimension");
 			$head_kno->setOptions(ilObjReview::knowledgeDimension());
+			$head_kno->setRequired(true);
 			$form->addItem($head_kno);
 		}
 	}
