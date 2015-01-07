@@ -16,7 +16,7 @@ class assReviewableMultipleChoiceExport extends assMultipleChoiceExport {
 	 * 
 	 * @param mixed $a_xml_writer	A xml writer
 	 */
-	function addReviewMetadata($a_xml_writer) {
+	private function addReviewMetadata($a_xml_writer) {
 		
 		// write taxonomy metadata
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
