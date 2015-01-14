@@ -1,6 +1,6 @@
 <?php
 
-//require_once("./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assReviewableMultipleChoice/classes/class.assReviewableMultipleChoice.php");
+require_once("./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assReviewableMultipleChoice/classes/class.assReviewableMultipleChoice.php");
 
 class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 		
@@ -13,7 +13,7 @@ class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 		ilUnitUtil::performInitialisation();
 	}
 	
-	public function testSaveReviewDataToDb() {		
+	public function testSaveToDb() {		
 		global $ilDB;
 		
 		$test_taxonomy = 1;
@@ -25,8 +25,8 @@ class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 		$qobj1->setId(1337);
 		$qobj2->setId(1338);
 		
-		$qobj1->saveReviewDataToDb();
-		$qobj2->saveReviewDataToDb();
+		$qobj1->saveToDb();
+		$qobj2->saveToDb();
 		
 		$qobj1_taxonomy = $ilDB->query("SELECT taxonomy FROM qpl_rev_qst WHERE question_id = 1337");
 		$qobj1_taxonomy = $ilDB->fetchAssoc(qobj1_taxonomy);
@@ -49,12 +49,9 @@ class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotEqual( $qobj2_knowledge_dimension, "" );
 		
 		$tqid = array(1337,1338);
-		
-		$ilDB->manipulateF("DELETE * FROM qpl_rev_qst WHERE question_id= %s",array("integer"), $tqid);
-		$ilDB->manipulate("DELETE FROM qpl_rev_qst WHERE ((question_id is null) + (taxonomy is null) + (knowledge_dimension is null)) = 3");
 	}
 	
-	public function testLoadReviewDataFromDb() {
+	public function testLoadFromDb() {
 		global $ilDB;
 		
 		$qobj1 = new assReviewableMultipleChoice("testQuestionObject1","","",-1,"",OUTPUT_ORDER,"","");
@@ -98,8 +95,8 @@ class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 		
-		$qobj1->loadReviewDataFromDb();
-		$qobj2->loadReviewDataFromDb();
+		$qobj1->loadFromDb();
+		$qobj2->loadFromDb();
 		
 		$this->assertNotEqual( $qobj1_taxonomy            , $test_taxonomy );
 		$this->assertNotEqual( $qobj1_knowledge_dimension , $test_knowledge_dimension );
