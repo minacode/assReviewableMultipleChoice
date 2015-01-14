@@ -19,8 +19,8 @@ class assReviewableMultipleChoiceTest extends PHPUnit_Framework_TestCase {
 		$test_taxonomy = 1;
 		$test_knowledge_dimension = 1;
 		
-		$qobj1 = new assReviewableMultipleChoice("testQuestionObject1","","",-1,"",OUTPUT_ORDER,"","");
-		$qobj2 = new assReviewableMultipleChoice("testQuestionObject2","","",-1,"",OUTPUT_ORDER,"","");
+		// $qobj1 = new assReviewableMultipleChoice("testQuestionObject1","","",-1,"",OUTPUT_ORDER,"","");
+		// $qobj2 = new assReviewableMultipleChoice("testQuestionObject2","","",-1,"",OUTPUT_ORDER,"","");
 		
 		$qobj1->setId(1337);
 		$qobj2->setId(1338);
