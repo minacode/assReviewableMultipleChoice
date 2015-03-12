@@ -1,5 +1,5 @@
-// English Language File for assReviewableMultipleChoice Plugin
+// English Language File for assReviewable<qtype> Plugin
 <!-- language file start -->
-assReviewableMultipleChoice#:#Multiple Choice (Reviewable)
+assReviewable<qtype>#:#<qtype> (Reviewable)
 cognitive_process#:#Cognitive Process
-knowledge_dimension#:#Knowledgedimension
+knowledge_dimension#:#Knowledge Dimension
